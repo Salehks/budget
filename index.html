@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0E1A2E">
 <link rel="apple-touch-icon" href="apple-icon.png">
 <link rel="manifest" href="manifest.json">
-<title>المصاريف الشهرية للبيت</title>
+<title>ميزانية الأسرة</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -97,7 +97,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .exp-info{flex:1;min-width:0}
 .exp-name{font-size:13px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .exp-name.wife{font-weight:700;color:var(--green)}
-.exp-cat{font-size:10px;color:var(--muted);margin-top:2px}
+.exp-sub{font-size:10px;color:var(--muted);margin-top:2px;text-align:right}
+.exp-note{font-size:10px;color:#E67E22;margin-top:2px;text-align:right;font-style:italic}
 .exp-amt{font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap;flex-shrink:0}
 .exp-amt.wife{color:var(--green-med)}
 .row-btn{background:none;border:none;cursor:pointer;padding:3px;font-size:14px;color:var(--muted);line-height:1;flex-shrink:0}
@@ -150,6 +151,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .sh-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:16px}
 .sh-input{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;margin-bottom:10px;outline:none}
 .sh-input:focus{border-color:var(--teal)}
+.sh-textarea{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;margin-bottom:10px;outline:none;resize:none;min-height:70px}
+.sh-textarea:focus{border-color:#E67E22}
 .wife-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer}
 .wife-row span{font-size:14px}
 .sw{width:38px;height:22px;border-radius:11px;background:var(--border);position:relative;transition:background .2s;flex-shrink:0}
@@ -162,7 +165,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .btn-danger{flex:1;padding:11px;border-radius:10px;border:none;background:var(--red-bg);color:var(--red);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .notif-btn{width:100%;padding:11px;border-radius:10px;border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
 .notif-btn.on{background:var(--teal);color:#fff}
-.sh-section{font-size:12px;color:var(--muted);margin-bottom:8px;margin-top:4px}
+.sh-section{font-size:12px;color:var(--muted);margin-bottom:8px;margin-top:4px;font-weight:600}
 </style>
 </head>
 <body>
@@ -170,7 +173,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 <!-- Login -->
 <div id="loginScreen">
   <div class="login-logo">💰</div>
-  <div class="login-title">المصاريف الشهرية للبيت</div>
+  <div class="login-title">ميزانية الأسرة</div>
   <div class="login-sub">سجّل دخولك للمتابعة</div>
   <div class="login-card">
     <div class="login-error" id="loginError">❌ البريد أو كلمة السر غلط</div>
@@ -185,7 +188,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 <!-- App -->
 <div id="app">
   <div class="header">
-    <div class="header-title">💰 المصاريف الشهرية للبيت</div>
+    <div class="header-title">💰 ميزانية الأسرة</div>
     <div class="header-actions">
       <div class="user-badge" id="userBadge">👤</div>
       <button class="header-btn" id="notifBtn">🔔</button>
@@ -216,12 +219,14 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   <button class="notif-close" onclick="hideNotifBanner()">✕</button>
 </div>
 
-<!-- Sheets -->
+<!-- Add Item Sheet -->
 <div class="overlay" id="addSheet"><div class="sheet">
   <div class="sh-handle"></div>
   <div class="sh-title">إضافة بند جديد</div>
   <input class="sh-input" type="text" id="newName" placeholder="اسم البند">
   <input class="sh-input" type="number" id="newAmt" placeholder="المبلغ بالريال" inputmode="decimal">
+  <div class="sh-section">📝 ملاحظة (اختياري)</div>
+  <textarea class="sh-textarea" id="newNote" placeholder="مثال: السواق مقترض 500 ريال..."></textarea>
   <div class="sh-section">التصنيف (اختياري)</div>
   <div class="cat-pills" id="newCatPills"></div>
   <div class="wife-row" onclick="toggleSw('newSw','newWife')">
@@ -234,11 +239,14 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   </div>
 </div></div>
 
+<!-- Edit Item Sheet -->
 <div class="overlay" id="editSheet"><div class="sheet">
   <div class="sh-handle"></div>
   <div class="sh-title">تعديل البند</div>
   <input class="sh-input" type="text" id="editName" placeholder="اسم البند">
   <input class="sh-input" type="number" id="editAmt" placeholder="المبلغ بالريال" inputmode="decimal">
+  <div class="sh-section">📝 ملاحظة (اختياري)</div>
+  <textarea class="sh-textarea" id="editNote" placeholder="أضف ملاحظة..."></textarea>
   <div class="sh-section">التصنيف (اختياري)</div>
   <div class="cat-pills" id="editCatPills"></div>
   <div class="wife-row" onclick="toggleSw('editSw','editWife')">
@@ -251,6 +259,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   </div>
 </div></div>
 
+<!-- Add Month Sheet -->
 <div class="overlay" id="monthSheet"><div class="sheet">
   <div class="sh-handle"></div>
   <div class="sh-title">إضافة شهر جديد</div>
@@ -269,6 +278,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   </div>
 </div></div>
 
+<!-- Delete Month Sheet -->
 <div class="overlay" id="delMonthSheet"><div class="sheet">
   <div class="sh-handle"></div>
   <div class="sh-title">🗑️ حذف الشهر</div>
@@ -279,6 +289,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   </div>
 </div></div>
 
+<!-- Notifications Sheet -->
 <div class="overlay" id="notifSheet"><div class="sheet">
   <div class="sh-handle"></div>
   <div class="sh-title">🔔 الإشعارات</div>
@@ -307,24 +318,28 @@ const auth  = getAuth(fbApp);
 
 const MONTHS = ["يناير","فبراير","مارس","إبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const CATEGORIES = [
-  {id:'food',label:'طعام',emoji:'🍽️'},{id:'bills',label:'فواتير',emoji:'🧾'},
-  {id:'kids',label:'الأولاد',emoji:'👦'},{id:'staff',label:'رواتب العمال',emoji:'💸'},
-  {id:'loan',label:'قرض',emoji:'🏦'},{id:'clothes',label:'ملابس',emoji:'👗'},
-  {id:'health',label:'صحة',emoji:'💊'},{id:'transport',label:'مواصلات',emoji:'🚗'},
+  {id:'food',label:'طعام',emoji:'🍽️'},
+  {id:'bills',label:'فواتير',emoji:'🧾'},
+  {id:'kids',label:'الأولاد',emoji:'👦'},
+  {id:'staff',label:'رواتب العمال',emoji:'💸'},
+  {id:'loan',label:'قرض',emoji:'🏦'},
+  {id:'clothes',label:'ملابس',emoji:'👗'},
+  {id:'health',label:'صحة',emoji:'💊'},
+  {id:'transport',label:'مواصلات',emoji:'🚗'},
   {id:'other',label:'أخرى',emoji:'📦'},
 ];
 const DEFAULT_ITEMS = [
-  {name:"مصروف لمى",amount:4500,isWife:true,cat:''},
-  {name:"مصروف صالح",amount:3500,isWife:false,cat:''},
-  {name:"بانزين",amount:500,isWife:false,cat:'transport'},
-  {name:"فاتورة الكهرباء",amount:430,isWife:false,cat:'bills'},
-  {name:"مقاضي البيت",amount:2800,isWife:false,cat:'food'},
-  {name:"أغراض خالد وعبدالرحمن",amount:1800,isWife:false,cat:'kids'},
-  {name:"فواتير الجوالات",amount:1700,isWife:false,cat:'bills'},
-  {name:"القرض",amount:7000,isWife:false,cat:'loan'},
-  {name:"راتب اليزا",amount:1500,isWife:false,cat:'staff'},
-  {name:"راتب السواق",amount:1300,isWife:false,cat:'staff'},
-  {name:"راتب آن",amount:1600,isWife:false,cat:'staff'},
+  {name:"مصروف لمى",amount:4500,isWife:true,cat:'',note:''},
+  {name:"مصروف صالح",amount:3500,isWife:false,cat:'',note:''},
+  {name:"بانزين",amount:500,isWife:false,cat:'transport',note:''},
+  {name:"فاتورة الكهرباء",amount:430,isWife:false,cat:'bills',note:''},
+  {name:"مقاضي البيت",amount:2800,isWife:false,cat:'food',note:''},
+  {name:"أغراض خالد وعبدالرحمن",amount:1800,isWife:false,cat:'kids',note:''},
+  {name:"فواتير الجوالات",amount:1700,isWife:false,cat:'bills',note:''},
+  {name:"القرض",amount:7000,isWife:false,cat:'loan',note:''},
+  {name:"راتب اليزا",amount:1500,isWife:false,cat:'staff',note:''},
+  {name:"راتب السواق",amount:1300,isWife:false,cat:'staff',note:''},
+  {name:"راتب آن",amount:1600,isWife:false,cat:'staff',note:''},
 ];
 
 const SID = Math.random().toString(36).slice(2);
@@ -360,7 +375,6 @@ window.doLogin = async () => {
 };
 
 window.doLogout = async () => { if(unsub)unsub(); await signOut(auth); };
-
 document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') window.doLogin(); });
 
 // ── Firestore ─────────────────────────────────────────────
@@ -383,8 +397,8 @@ function startListening(){
     if(snap.exists()){
       const d=snap.data(); months=d.data||[];
       if(!isFirstLoad&&d.lastModifiedBy&&d.lastModifiedBy!==SID){
-        const user=auth.currentUser?.email?.split('@')[0]||'الطرف الثاني';
-        showNotifBanner('💰 تم التعديل',`قام ${user==='saleh'?'لمى':'صالح'} بتحديث الميزانية`);
+        const me=auth.currentUser?.email?.split('@')[0]||'';
+        showNotifBanner('💰 تم التعديل',`قام ${me==='saleh'?'لمى':'صالح'} بتحديث الميزانية`);
       }
       isFirstLoad=false;
     } else {
@@ -438,7 +452,8 @@ function renderExp(m){
       <div class="dot${item.isWife?' w':' r'}"></div>
       <div class="exp-info">
         <div class="exp-name${item.isWife?' wife':''}">${item.name}</div>
-        ${cat?`<div class="exp-cat">${cat.emoji} ${cat.label}</div>`:''}
+        ${cat?`<div class="exp-sub">${cat.emoji} ${cat.label}</div>`:''}
+        ${item.note?`<div class="exp-note">📝 ${item.note}</div>`:''}
       </div>
       <div class="exp-amt${item.isWife?' wife':''}">${fmt(item.amount)}</div>
       <button class="row-btn heart${item.isWife?' on':''}" onclick="toggleWife('${item.id}')">${item.isWife?'💚':'🤍'}</button>
@@ -502,20 +517,94 @@ window.selMonth=id=>{selId=id;render();};
 window.setTab=t=>{tab=t;render();};
 window.toggleWife=id=>{const m=getSel();if(!m)return;const i=m.items.find(x=>x.id===id);if(!i)return;i.isWife=!i.isWife;saveMonth();render();};
 window.delItem=id=>{if(!confirm('حذف هذا البند؟'))return;const m=getSel();if(!m)return;m.items=m.items.filter(i=>i.id!==id);saveMonth();render();};
-window.openAdd=()=>{newWife=false;newCat='';document.getElementById('newName').value='';document.getElementById('newAmt').value='';document.getElementById('newSw').className='sw';renderCatPills('newCatPills','');openSheet('addSheet');setTimeout(()=>document.getElementById('newName').focus(),350);};
-window.confirmAdd=()=>{const name=document.getElementById('newName').value.trim();const amt=parseFloat(document.getElementById('newAmt').value);if(!name||!amt||amt<=0)return;const m=getSel();if(!m)return;m.items.push({id:uid(),name,amount:amt,isWife:newWife,cat:newCat});saveMonth();render();closeSheet('addSheet');};
-window.openEdit=id=>{const m=getSel();if(!m)return;const item=m.items.find(i=>i.id===id);if(!item)return;editingId=id;editWife=item.isWife;editCat=item.cat||'';document.getElementById('editName').value=item.name;document.getElementById('editAmt').value=item.amount;document.getElementById('editSw').className='sw'+(editWife?' on':'');renderCatPills('editCatPills',editCat);openSheet('editSheet');};
-window.confirmEdit=()=>{const name=document.getElementById('editName').value.trim();const amt=parseFloat(document.getElementById('editAmt').value);if(!name||!amt||amt<=0)return;const m=getSel();if(!m)return;const item=m.items.find(i=>i.id===editingId);if(!item)return;item.name=name;item.amount=amt;item.isWife=editWife;item.cat=editCat;saveMonth();render();closeSheet('editSheet');};
-window.confirmAddMonth=()=>{const idx=parseInt(document.getElementById('newMonthIdx').value);const year=parseInt(document.getElementById('newMonthYear').value)||2025;const last=months.length?months[months.length-1].salary:36216;const m={id:uid(),monthIndex:idx,year,salary:last,items:DEFAULT_ITEMS.map(i=>({...i,id:uid()}))};months.push(m);selId=m.id;saveMonth();render();closeSheet('monthSheet');};
-window.openDelMonth=id=>{if(months.length<=1){alert('لا يمكن حذف الشهر الوحيد');return;}delMonthId=id;const m=months.find(x=>x.id===id);document.getElementById('delMonthMsg').textContent=`هل تريد حذف شهر ${MONTHS[m.monthIndex]}؟`;openSheet('delMonthSheet');};
-window.confirmDelMonth=()=>{months=months.filter(m=>m.id!==delMonthId);if(selId===delMonthId)selId=months[0]?.id||null;saveMonth();render();closeSheet('delMonthSheet');};
-window.toggleSw=(swId,v)=>{if(v==='newWife')newWife=!newWife;else editWife=!editWife;const val=v==='newWife'?newWife:editWife;document.getElementById(swId).className='sw'+(val?' on':'');};
+
+window.openAdd=()=>{
+  newWife=false;newCat='';
+  document.getElementById('newName').value='';
+  document.getElementById('newAmt').value='';
+  document.getElementById('newNote').value='';
+  document.getElementById('newSw').className='sw';
+  renderCatPills('newCatPills','');
+  openSheet('addSheet');
+  setTimeout(()=>document.getElementById('newName').focus(),350);
+};
+
+window.confirmAdd=()=>{
+  const name=document.getElementById('newName').value.trim();
+  const amt=parseFloat(document.getElementById('newAmt').value);
+  const note=document.getElementById('newNote').value.trim();
+  if(!name||!amt||amt<=0)return;
+  const m=getSel();if(!m)return;
+  m.items.push({id:uid(),name,amount:amt,isWife:newWife,cat:newCat,note});
+  saveMonth();render();closeSheet('addSheet');
+};
+
+window.openEdit=id=>{
+  const m=getSel();if(!m)return;
+  const item=m.items.find(i=>i.id===id);if(!item)return;
+  editingId=id;editWife=item.isWife;editCat=item.cat||'';
+  document.getElementById('editName').value=item.name;
+  document.getElementById('editAmt').value=item.amount;
+  document.getElementById('editNote').value=item.note||'';
+  document.getElementById('editSw').className='sw'+(editWife?' on':'');
+  renderCatPills('editCatPills',editCat);
+  openSheet('editSheet');
+};
+
+window.confirmEdit=()=>{
+  const name=document.getElementById('editName').value.trim();
+  const amt=parseFloat(document.getElementById('editAmt').value);
+  const note=document.getElementById('editNote').value.trim();
+  if(!name||!amt||amt<=0)return;
+  const m=getSel();if(!m)return;
+  const item=m.items.find(i=>i.id===editingId);if(!item)return;
+  item.name=name;item.amount=amt;item.isWife=editWife;item.cat=editCat;item.note=note;
+  saveMonth();render();closeSheet('editSheet');
+};
+
+window.confirmAddMonth=()=>{
+  const idx=parseInt(document.getElementById('newMonthIdx').value);
+  const year=parseInt(document.getElementById('newMonthYear').value)||2025;
+  const last=months.length?months[months.length-1].salary:36216;
+  const m={id:uid(),monthIndex:idx,year,salary:last,items:DEFAULT_ITEMS.map(i=>({...i,id:uid()}))};
+  months.push(m);selId=m.id;saveMonth();render();closeSheet('monthSheet');
+};
+
+window.openDelMonth=id=>{
+  if(months.length<=1){alert('لا يمكن حذف الشهر الوحيد');return;}
+  delMonthId=id;
+  const m=months.find(x=>x.id===id);
+  document.getElementById('delMonthMsg').textContent=`هل تريد حذف شهر ${MONTHS[m.monthIndex]}؟`;
+  openSheet('delMonthSheet');
+};
+
+window.confirmDelMonth=()=>{
+  months=months.filter(m=>m.id!==delMonthId);
+  if(selId===delMonthId)selId=months[0]?.id||null;
+  saveMonth();render();closeSheet('delMonthSheet');
+};
+
+window.toggleSw=(swId,v)=>{
+  if(v==='newWife')newWife=!newWife;else editWife=!editWife;
+  const val=v==='newWife'?newWife:editWife;
+  document.getElementById(swId).className='sw'+(val?' on':'');
+};
+
 window.openSheet=id=>document.getElementById(id).classList.add('open');
 window.closeSheet=id=>document.getElementById(id).classList.remove('open');
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');}));
 document.getElementById('addMonthBtn').onclick=()=>openSheet('monthSheet');
-document.getElementById('notifBtn').onclick=()=>{const btn=document.getElementById('notifToggleBtn');btn.className='notif-btn'+(notifEnabled?' on':'');btn.textContent=notifEnabled?'🔔 الإشعارات مفعّلة':'🔕 تفعيل الإشعارات';openSheet('notifSheet');};
-document.getElementById('salaryInput').addEventListener('change',e=>{const m=getSel();if(!m)return;m.salary=parseFloat(e.target.value)||36216;saveMonth();render();});
+document.getElementById('notifBtn').onclick=()=>{
+  const btn=document.getElementById('notifToggleBtn');
+  btn.className='notif-btn'+(notifEnabled?' on':'');
+  btn.textContent=notifEnabled?'🔔 الإشعارات مفعّلة':'🔕 تفعيل الإشعارات';
+  openSheet('notifSheet');
+};
+document.getElementById('salaryInput').addEventListener('change',e=>{
+  const m=getSel();if(!m)return;
+  m.salary=parseFloat(e.target.value)||36216;
+  saveMonth();render();
+});
 </script>
 </body>
 </html>
