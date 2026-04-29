@@ -13,3 +13,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: monthlybudget-9a32b
           channelId: live
+          entryPoint: "."
