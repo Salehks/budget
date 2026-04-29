@@ -404,7 +404,7 @@ window.toggleNotifications = () => {
 };
 
 // ── Helpers ────────────────────────────────────────────────
-function fmt(n) { return Math.round(n).toLocaleString('ar-SA') + ' ر.س'; }
+function fmt(n) { return Math.round(n).toLocaleString('en-US') + ' ر.س'; }
 function getSel() { return months.find(m => m.id === selId); }
 function total(m) { return m.items.reduce((s,i) => s+Number(i.amount), 0); }
 function wife(m)  { return m.items.filter(i=>i.isWife).reduce((s,i) => s+Number(i.amount), 0); }
