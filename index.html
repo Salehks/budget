@@ -7,19 +7,21 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ميزانيتي">
 <meta name="theme-color" content="#0E1A2E">
+<link rel="apple-touch-icon" href="apple-icon.png">
+<link rel="manifest" href="manifest.json">
 <title>ميزانية الأسرة</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy: #1B2A4A; --navy-deep: #0E1A2E;
-  --teal: #0D6E6E; --teal-light: #EBF4F4;
-  --green: #1A6B3C; --green-med: #2D9E5F; --green-bg: #D4EDDA;
-  --gold: #9A7000; --gold-bg: #FFF8E7;
-  --red: #C0392B; --red-bg: #FDECEA;
-  --bg: #F0F4F8; --card: #FFFFFF; --border: #DDE5EF;
-  --muted: #64748B; --text: #1B2A4A;
-  --safe-top: env(safe-area-inset-top,0px);
-  --safe-bot: env(safe-area-inset-bottom,0px);
+:root{
+  --navy:#1B2A4A;--navy-deep:#0E1A2E;
+  --teal:#0D6E6E;--teal-light:#EBF4F4;
+  --green:#1A6B3C;--green-med:#2D9E5F;--green-bg:#D4EDDA;
+  --gold:#9A7000;--gold-bg:#FFF8E7;
+  --red:#C0392B;--red-bg:#FDECEA;
+  --bg:#F0F4F8;--card:#FFFFFF;--border:#DDE5EF;
+  --muted:#64748B;--text:#1B2A4A;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#0D1117;--card:#161B22;--border:#21262D;--text:#E6EDF3;
@@ -29,35 +31,24 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;direction:rtl}
 #app{display:flex;flex-direction:column;height:100dvh}
-
-/* Header */
 .header{background:var(--navy-deep);padding:calc(var(--safe-top) + 12px) 20px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header-title{color:#fff;font-size:17px;font-weight:800}
 .header-actions{display:flex;gap:8px}
 .header-btn{background:rgba(255,255,255,.08);border:none;color:#94A3B8;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center}
-
-/* Sync indicator */
 .sync-bar{background:var(--teal);color:#fff;font-size:11px;text-align:center;padding:4px;display:none;flex-shrink:0}
 .sync-bar.show{display:block}
 .sync-bar.error{background:var(--red)}
-
-/* Month bar */
 .month-bar{background:var(--teal-light);border-bottom:1px solid var(--border);display:flex;gap:4px;overflow-x:auto;padding:8px 12px;scrollbar-width:none;flex-shrink:0}
 .month-bar::-webkit-scrollbar{display:none}
-.month-btn{padding:7px 13px;border:none;background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;font-size:12px;font-weight:400;white-space:nowrap;font-family:inherit;transition:all .2s}
+.month-btn{padding:7px 13px;border:none;background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;font-size:12px;font-weight:400;white-space:nowrap;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:5px}
 .month-btn.active{background:var(--teal);color:#fff;font-weight:700}
-
-/* Salary bar */
+.month-del{font-size:11px;opacity:.6;line-height:1}
 .salary-bar{display:flex;align-items:center;gap:8px;padding:8px 16px 0;flex-shrink:0}
 .salary-bar label{font-size:12px;color:var(--muted);white-space:nowrap}
 .salary-bar input{width:110px;padding:6px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--teal);font-size:13px;font-weight:700;font-family:inherit;direction:rtl;outline:none}
 .salary-bar input:focus{border-color:var(--teal)}
 .salary-bar span{font-size:11px;color:var(--muted)}
-
-/* Scroll area */
 .scroll-area{flex:1;overflow-y:auto;padding:12px 16px;padding-bottom:calc(80px + var(--safe-bot));-webkit-overflow-scrolling:touch}
-
-/* Cards */
 .card{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px}
 .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .stat-card{border-radius:14px;padding:14px;border:1.5px solid transparent}
@@ -69,8 +60,6 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .stat-card.gold .val{color:var(--gold)}
 .stat-card.red2{background:var(--red-bg);border-color:rgba(192,57,43,.3)}
 .stat-card.red2 .val{color:var(--red)}
-
-/* Progress */
 .prog-card{padding:14px}
 .prog-meta{display:flex;justify-content:space-between;margin-bottom:6px}
 .prog-meta span{font-size:11px}
@@ -78,28 +67,30 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .prog-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
 .prog-sub{display:flex;justify-content:space-between;margin-top:5px}
 .prog-sub span{font-size:10px;color:var(--muted)}
-
-/* Section header */
 .sec-hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)}
 .sec-title{font-size:13px;font-weight:700}
-
+/* Category badge */
+.cat-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;margin-right:4px}
 /* Expense rows */
-.exp-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);transition:background .15s}
+.exp-row{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);transition:background .15s}
 .exp-row:last-child{border-bottom:none}
 .exp-row.wife{background:rgba(212,237,218,.35)}
 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .dot.w{background:var(--green-med)}.dot.r{background:var(--border)}
-.exp-name{flex:1;font-size:13px;text-align:right}
+.exp-info{flex:1;min-width:0}
+.exp-name{font-size:13px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .exp-name.wife{font-weight:700;color:var(--green)}
-.exp-amt{font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap}
+.exp-cat{font-size:10px;color:var(--muted);text-align:right;margin-top:2px}
+.exp-amt{font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap;flex-shrink:0}
 .exp-amt.wife{color:var(--green-med)}
-.row-btn{background:none;border:none;cursor:pointer;padding:4px;font-size:15px;color:var(--muted);line-height:1}
+.row-btn{background:none;border:none;cursor:pointer;padding:3px;font-size:14px;color:var(--muted);line-height:1;flex-shrink:0}
 .row-btn.heart.on{color:var(--green-med)}
 .row-btn.del{color:rgba(192,57,43,.6)}
-
-/* Add button */
 .add-trigger{width:calc(100% - 32px);margin:10px 16px;padding:11px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
-
+/* Category pills */
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cat-pill{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.cat-pill.active{border-color:var(--teal);background:var(--teal);color:#fff}
 /* Summary */
 .sum-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border)}
 .sum-row:last-child{border-bottom:none}
@@ -110,8 +101,6 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .sum-val.big{font-size:20px}
 .sum-val.teal{color:var(--teal)}.sum-val.gold{color:var(--gold)}
 .sum-val.green{color:var(--green-med)}.sum-val.red{color:var(--red)}
-
-/* Chart */
 .chart-sec{padding:14px 16px}
 .chart-title{font-size:13px;font-weight:700;margin-bottom:12px}
 .chart-item{margin-bottom:9px}
@@ -121,36 +110,47 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .chart-bg{height:5px;border-radius:3px;background:var(--border);overflow:hidden}
 .chart-bar{height:100%;border-radius:3px;transition:width .6s ease}
 .chart-bar.wife{background:var(--green-med)}.chart-bar.reg{background:rgba(13,110,110,.6)}
-
-/* Tab bar */
+/* Category summary */
+.cat-sum-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border)}
+.cat-sum-row:last-child{border-bottom:none}
+.cat-sum-label{font-size:13px;display:flex;align-items:center;gap:6px}
+.cat-sum-val{font-size:13px;font-weight:700;color:var(--teal)}
 .tab-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 20px calc(10px + var(--safe-bot));background:rgba(255,255,255,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex}
 @media(prefers-color-scheme:dark){.tab-bar{background:rgba(22,27,34,.9)}}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:4px;font-family:inherit}
 .tab-btn .ti{font-size:20px}.tab-btn .tl{font-size:10px;font-weight:500}
 .tab-btn.active .ti,.tab-btn.active .tl{color:var(--teal)}
 .tab-btn:not(.active) .ti,.tab-btn:not(.active) .tl{color:var(--muted)}
-
-/* Sheet */
+/* Notif banner */
+.notif-banner{position:fixed;top:calc(var(--safe-top) + 60px);left:16px;right:16px;background:var(--navy);color:#fff;border-radius:14px;padding:14px 16px;z-index:200;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.3);transform:translateY(-120px);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.notif-banner.show{transform:translateY(0)}
+.notif-icon{font-size:24px;flex-shrink:0}
+.notif-text{flex:1}
+.notif-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.notif-body{font-size:11px;color:#94A3B8}
+.notif-close{background:none;border:none;color:#94A3B8;font-size:18px;cursor:pointer;padding:4px}
+/* Sheets */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
 .overlay.open{opacity:1;pointer-events:all}
-.sheet{background:var(--card);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + var(--safe-bot));width:100%;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:85dvh;overflow-y:auto}
+.sheet{background:var(--card);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + var(--safe-bot));width:100%;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:90dvh;overflow-y:auto}
 .overlay.open .sheet{transform:translateY(0)}
 .sh-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
 .sh-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:16px}
 .sh-input{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;margin-bottom:10px;outline:none}
 .sh-input:focus{border-color:var(--teal)}
-.wife-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;cursor:pointer}
+.wife-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer}
 .wife-row span{font-size:14px}
 .sw{width:38px;height:22px;border-radius:11px;background:var(--border);position:relative;transition:background .2s;flex-shrink:0}
 .sw.on{background:var(--green-med)}
 .sw-knob{position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:right .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .sw.on .sw-knob{right:19px}
-.form-btns{display:flex;gap:8px}
+.form-btns{display:flex;gap:8px;margin-top:4px}
 .btn-p{flex:1;padding:11px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn-s{padding:11px 16px;border-radius:10px;border:none;background:var(--border);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit}
-
-/* Loading */
-.loading{display:flex;align-items:center;justify-content:center;height:200px;font-size:14px;color:var(--muted)}
+.btn-danger{flex:1;padding:11px;border-radius:10px;border:none;background:var(--red-bg);color:var(--red);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.notif-btn{width:100%;padding:11px;border-radius:10px;border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
+.notif-btn.on{background:var(--teal);color:#fff}
+.sh-section{font-size:12px;color:var(--muted);margin-bottom:8px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -158,7 +158,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   <div class="header">
     <div class="header-title">💰 ميزانية الأسرة</div>
     <div class="header-actions">
-      <button class="header-btn" id="addMonthBtn">＋</button>
+      <button class="header-btn" id="notifBtn" title="الإشعارات">🔔</button>
+      <button class="header-btn" id="addMonthBtn" title="إضافة شهر">＋</button>
     </div>
   </div>
   <div class="sync-bar" id="syncBar">جاري المزامنة...</div>
@@ -168,11 +169,21 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <input type="number" id="salaryInput" value="36216">
     <span>ريال</span>
   </div>
-  <div class="scroll-area" id="scrollArea"><div class="loading">⏳ جاري التحميل...</div></div>
+  <div class="scroll-area" id="scrollArea"><div style="text-align:center;padding:40px;color:var(--muted)">⏳ جاري التحميل...</div></div>
   <div class="tab-bar">
     <button class="tab-btn active" id="tabExp" onclick="setTab('exp')"><span class="ti">📋</span><span class="tl">المصاريف</span></button>
     <button class="tab-btn" id="tabSum" onclick="setTab('sum')"><span class="ti">📊</span><span class="tl">الملخص</span></button>
   </div>
+</div>
+
+<!-- Notification banner -->
+<div class="notif-banner" id="notifBanner">
+  <div class="notif-icon">💰</div>
+  <div class="notif-text">
+    <div class="notif-title" id="notifTitle">تم التعديل</div>
+    <div class="notif-body" id="notifBody">تم تحديث الميزانية</div>
+  </div>
+  <button class="notif-close" onclick="hideNotifBanner()">✕</button>
 </div>
 
 <!-- Add Item Sheet -->
@@ -182,6 +193,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <div class="sh-title">إضافة بند جديد</div>
     <input class="sh-input" type="text" id="newName" placeholder="اسم البند">
     <input class="sh-input" type="number" id="newAmt" placeholder="المبلغ بالريال" inputmode="decimal">
+    <div class="sh-section">التصنيف (اختياري)</div>
+    <div class="cat-pills" id="newCatPills"></div>
     <div class="wife-row" onclick="toggleSw('newSw','newWife')">
       <div class="sw" id="newSw"><div class="sw-knob"></div></div>
       <span>💚 يُحوَّل لحساب لمى</span>
@@ -200,6 +213,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <div class="sh-title">تعديل البند</div>
     <input class="sh-input" type="text" id="editName" placeholder="اسم البند">
     <input class="sh-input" type="number" id="editAmt" placeholder="المبلغ بالريال" inputmode="decimal">
+    <div class="sh-section">التصنيف (اختياري)</div>
+    <div class="cat-pills" id="editCatPills"></div>
     <div class="wife-row" onclick="toggleSw('editSw','editWife')">
       <div class="sw" id="editSw"><div class="sw-knob"></div></div>
       <span>💚 يُحوَّل لحساب لمى</span>
@@ -224,14 +239,45 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
       <option value="8">سبتمبر</option><option value="9">أكتوبر</option>
       <option value="10">نوفمبر</option><option value="11">ديسمبر</option>
     </select>
-    <input class="sh-input" type="number" id="newMonthYear" value="2025">
-    <button class="btn-p" onclick="confirmAddMonth()">إضافة الشهر</button>
+    <input class="sh-input" type="number" id="newMonthYear" value="2025" placeholder="السنة">
+    <div class="form-btns">
+      <button class="btn-p" onclick="confirmAddMonth()">إضافة الشهر</button>
+      <button class="btn-s" onclick="closeSheet('monthSheet')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Month Sheet -->
+<div class="overlay" id="delMonthSheet">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-title">🗑️ حذف الشهر</div>
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:20px" id="delMonthMsg">هل تريد حذف هذا الشهر؟</p>
+    <div class="form-btns">
+      <button class="btn-danger" onclick="confirmDelMonth()">حذف</button>
+      <button class="btn-s" onclick="closeSheet('delMonthSheet')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notifications Sheet -->
+<div class="overlay" id="notifSheet">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-title">🔔 الإشعارات</div>
+    <button class="notif-btn" id="notifToggleBtn" onclick="toggleNotifications()">
+      🔔 تفعيل الإشعارات
+    </button>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px">
+      ستصلك إشعار داخل التطبيق عند أي تعديل من زوجتك
+    </p>
+    <button class="btn-s" style="width:100%" onclick="closeSheet('notifSheet')">إغلاق</button>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot, collection, deleteDoc, updateDoc }
+import { getFirestore, doc, setDoc, onSnapshot }
   from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -248,33 +294,53 @@ const db  = getFirestore(app);
 
 // ── Constants ──────────────────────────────────────────────
 const MONTHS = ["يناير","فبراير","مارس","إبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+
+const CATEGORIES = [
+  { id: 'food',    label: 'طعام',       emoji: '🍽️', color: '#E67E22', bg: '#FEF3E2' },
+  { id: 'bills',   label: 'فواتير',     emoji: '🧾', color: '#2980B9', bg: '#EBF5FB' },
+  { id: 'kids',    label: 'الأولاد',    emoji: '👦', color: '#8E44AD', bg: '#F5EEF8' },
+  { id: 'staff',   label: 'الشغالات',   emoji: '🧹', color: '#16A085', bg: '#E8F8F5' },
+  { id: 'loan',    label: 'قرض',        emoji: '🏦', color: '#C0392B', bg: '#FDECEA' },
+  { id: 'clothes', label: 'ملابس',      emoji: '👗', color: '#D35400', bg: '#FBEEE6' },
+  { id: 'health',  label: 'صحة',        emoji: '💊', color: '#27AE60', bg: '#EAFAF1' },
+  { id: 'transport',label: 'مواصلات',   emoji: '🚗', color: '#2C3E50', bg: '#EAECEE' },
+  { id: 'other',   label: 'أخرى',       emoji: '📦', color: '#7F8C8D', bg: '#F2F3F4' },
+];
+
 const DEFAULT_ITEMS = [
-  {name:"مصروف لمى",amount:4500,isWife:true},
-  {name:"مصروف صالح",amount:3500,isWife:false},
-  {name:"بانزين",amount:500,isWife:false},
-  {name:"فاتورة الكهرباء",amount:430,isWife:false},
-  {name:"مقاضي البيت",amount:2800,isWife:false},
-  {name:"أغراض خالد وعبدالرحمن",amount:1800,isWife:false},
-  {name:"فواتير الجوالات",amount:1700,isWife:false},
-  {name:"القرض",amount:7000,isWife:false},
-  {name:"راتب اليزا",amount:1500,isWife:false},
-  {name:"راتب السواق",amount:1300,isWife:false},
-  {name:"راتب آن",amount:1600,isWife:false},
+  {name:"مصروف لمى",amount:4500,isWife:true,cat:''},
+  {name:"مصروف صالح",amount:3500,isWife:false,cat:''},
+  {name:"بانزين",amount:500,isWife:false,cat:'transport'},
+  {name:"فاتورة الكهرباء",amount:430,isWife:false,cat:'bills'},
+  {name:"مقاضي البيت",amount:2800,isWife:false,cat:'food'},
+  {name:"أغراض خالد وعبدالرحمن",amount:1800,isWife:false,cat:'kids'},
+  {name:"فواتير الجوالات",amount:1700,isWife:false,cat:'bills'},
+  {name:"القرض",amount:7000,isWife:false,cat:'loan'},
+  {name:"راتب اليزا",amount:1500,isWife:false,cat:'staff'},
+  {name:"راتب السواق",amount:1300,isWife:false,cat:'staff'},
+  {name:"راتب آن",amount:1600,isWife:false,cat:'staff'},
 ];
 
 // ── State ──────────────────────────────────────────────────
-let months = [];       // [{id, monthIndex, year, salary, items:[]}]
-let selId  = null;
-let tab    = 'exp';
+const SESSION_ID = Math.random().toString(36).slice(2);
+let months = [], selId = null, tab = 'exp';
 let newWife = false, editWife = false, editingId = null;
+let newCat = '', editCat = '';
+let delMonthId = null;
+let notifEnabled = localStorage.getItem('notif') === 'on';
+let isFirstLoad = true;
 
-// ── Firebase helpers ───────────────────────────────────────
+// ── Firebase ───────────────────────────────────────────────
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
 
-async function saveMonth(m) {
+async function saveMonth() {
   showSync('جاري الحفظ...');
   try {
-    await setDoc(doc(db,'budget','months'), { data: months });
+    await setDoc(doc(db,'budget','months'), {
+      data: months,
+      lastModifiedBy: SESSION_ID,
+      lastModifiedAt: Date.now()
+    });
     hideSync();
   } catch(e) { showSync('خطأ في الحفظ ❌', true); }
 }
@@ -287,29 +353,55 @@ function hideSync() {
   setTimeout(() => { document.getElementById('syncBar').className='sync-bar'; }, 1500);
 }
 
-// ── Load from Firestore (realtime) ─────────────────────────
+// ── Realtime listener ──────────────────────────────────────
 onSnapshot(doc(db,'budget','months'), snap => {
   if (snap.exists()) {
-    months = snap.data().data || [];
+    const d = snap.data();
+    months = d.data || [];
+
+    // Show notification if change was by another device
+    if (!isFirstLoad && d.lastModifiedBy && d.lastModifiedBy !== SESSION_ID) {
+      showNotifBanner('💰 تم التعديل', 'قامت لمى بتحديث الميزانية');
+    }
+    isFirstLoad = false;
   } else {
-    // First time — create default month
     const now = new Date();
     months = [{
-      id: uid(),
-      monthIndex: now.getMonth(),
-      year: now.getFullYear(),
-      salary: 36216,
-      items: DEFAULT_ITEMS.map(i => ({...i, id: uid()}))
+      id: uid(), monthIndex: now.getMonth(), year: now.getFullYear(),
+      salary: 36216, items: DEFAULT_ITEMS.map(i => ({...i, id: uid()}))
     }];
     saveMonth();
+    isFirstLoad = false;
   }
   if (!selId || !months.find(m => m.id === selId)) {
     selId = months[0]?.id || null;
   }
   render();
-}, err => {
-  showSync('تعذر الاتصال بالسيرفر ❌', true);
 });
+
+// ── In-app notification banner ─────────────────────────────
+let notifTimer = null;
+window.showNotifBanner = (title, body) => {
+  if (!notifEnabled) return;
+  document.getElementById('notifTitle').textContent = title;
+  document.getElementById('notifBody').textContent = body;
+  const b = document.getElementById('notifBanner');
+  b.classList.add('show');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => b.classList.remove('show'), 4000);
+};
+window.hideNotifBanner = () => {
+  document.getElementById('notifBanner').classList.remove('show');
+  clearTimeout(notifTimer);
+};
+
+window.toggleNotifications = () => {
+  notifEnabled = !notifEnabled;
+  localStorage.setItem('notif', notifEnabled ? 'on' : 'off');
+  const btn = document.getElementById('notifToggleBtn');
+  btn.className = 'notif-btn' + (notifEnabled ? ' on' : '');
+  btn.textContent = notifEnabled ? '🔔 الإشعارات مفعّلة' : '🔕 الإشعارات معطّلة';
+};
 
 // ── Helpers ────────────────────────────────────────────────
 function fmt(n) { return Math.round(n).toLocaleString('ar-SA') + ' ر.س'; }
@@ -317,6 +409,7 @@ function getSel() { return months.find(m => m.id === selId); }
 function total(m) { return m.items.reduce((s,i) => s+Number(i.amount), 0); }
 function wife(m)  { return m.items.filter(i=>i.isWife).reduce((s,i) => s+Number(i.amount), 0); }
 function sur(m)   { return m.salary - total(m); }
+function getCat(id) { return CATEGORIES.find(c=>c.id===id); }
 
 // ── Render ─────────────────────────────────────────────────
 function render() {
@@ -327,27 +420,43 @@ function render() {
   tab === 'exp' ? renderExp(m) : renderSum(m);
   document.getElementById('tabExp').className = 'tab-btn' + (tab==='exp'?' active':'');
   document.getElementById('tabSum').className = 'tab-btn' + (tab==='sum'?' active':'');
+  // Update notif button
+  const btn = document.getElementById('notifToggleBtn');
+  if (btn) {
+    btn.className = 'notif-btn' + (notifEnabled ? ' on' : '');
+    btn.textContent = notifEnabled ? '🔔 الإشعارات مفعّلة' : '🔕 تفعيل الإشعارات';
+  }
 }
 
 function renderMonthBar() {
-  document.getElementById('monthBar').innerHTML = months.map(m =>
-    `<button class="month-btn${m.id===selId?' active':''}" onclick="selMonth('${m.id}')">${MONTHS[m.monthIndex]}</button>`
-  ).join('');
+  document.getElementById('monthBar').innerHTML = months.map(m => {
+    const isActive = m.id === selId;
+    return `<button class="month-btn${isActive?' active':''}" onclick="selMonth('${m.id}')">
+      ${MONTHS[m.monthIndex]}
+      <span class="month-del" onclick="event.stopPropagation();openDelMonth('${m.id}')">✕</span>
+    </button>`;
+  }).join('');
 }
 
 function renderExp(m) {
   const t = total(m), w = wife(m), s = sur(m), pct = Math.min(t/m.salary*100,100);
   const bc = pct>90?'var(--red)':pct>70?'var(--gold)':'var(--teal)';
 
-  const rows = m.items.map(item => `
-    <div class="exp-row${item.isWife?' wife':''}">
+  const rows = m.items.map(item => {
+    const cat = getCat(item.cat);
+    const catHtml = cat ? `<div class="exp-cat">${cat.emoji} ${cat.label}</div>` : '';
+    return `<div class="exp-row${item.isWife?' wife':''}">
       <div class="dot${item.isWife?' w':' r'}"></div>
-      <div class="exp-name${item.isWife?' wife':''}">${item.name}</div>
+      <div class="exp-info">
+        <div class="exp-name${item.isWife?' wife':''}">${item.name}</div>
+        ${catHtml}
+      </div>
       <div class="exp-amt${item.isWife?' wife':''}">${fmt(item.amount)}</div>
       <button class="row-btn heart${item.isWife?' on':''}" onclick="toggleWife('${item.id}')">${item.isWife?'💚':'🤍'}</button>
       <button class="row-btn" onclick="openEdit('${item.id}')">✏️</button>
       <button class="row-btn del" onclick="delItem('${item.id}')">🗑</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   document.getElementById('scrollArea').innerHTML = `
     <div class="stats-row">
@@ -368,6 +477,23 @@ function renderExp(m) {
 
 function renderSum(m) {
   const t = total(m), w = wife(m), s = sur(m);
+
+  // Category breakdown
+  const catTotals = {};
+  m.items.forEach(item => {
+    const key = item.cat || 'other';
+    catTotals[key] = (catTotals[key] || 0) + Number(item.amount);
+  });
+  const catRows = Object.entries(catTotals)
+    .sort((a,b) => b[1]-a[1])
+    .map(([id, amt]) => {
+      const cat = getCat(id) || getCat('other');
+      return `<div class="cat-sum-row">
+        <div class="cat-sum-label"><span>${cat.emoji}</span>${cat.label}</div>
+        <div class="cat-sum-val">${fmt(amt)}</div>
+      </div>`;
+    }).join('');
+
   const bars = [...m.items].sort((a,b)=>b.amount-a.amount).map(item => {
     const p = t>0?item.amount/t*100:0;
     return `<div class="chart-item">
@@ -383,8 +509,27 @@ function renderSum(m) {
       <div class="sum-row"><div class="sum-val ${s>=0?'gold':'red'}">${fmt(Math.abs(s))}</div><div class="sum-lbl">${s>=0?'✨ الفائض':'⚠️ العجز'}</div></div>
       <div class="sum-row hi"><div class="sum-val green big">${fmt(w)}</div><div class="sum-lbl green">💚 تحويل حساب لمى</div></div>
     </div>
+    <div class="card">
+      <div class="sec-hdr"><div class="sec-title">حسب التصنيف</div></div>
+      ${catRows}
+    </div>
     <div class="card"><div class="chart-sec"><div class="chart-title">توزيع المصاريف</div>${bars}</div></div>`;
 }
+
+function renderCatPills(containerId, activeCat) {
+  document.getElementById(containerId).innerHTML = [
+    `<button class="cat-pill${activeCat===''?' active':''}" onclick="setCat('${containerId}','')">بدون</button>`,
+    ...CATEGORIES.map(c =>
+      `<button class="cat-pill${activeCat===c.id?' active':''}" onclick="setCat('${containerId}','${c.id}')">${c.emoji} ${c.label}</button>`
+    )
+  ].join('');
+}
+
+window.setCat = (containerId, catId) => {
+  if (containerId === 'newCatPills') newCat = catId;
+  else editCat = catId;
+  renderCatPills(containerId, catId);
+};
 
 // ── Actions ────────────────────────────────────────────────
 window.selMonth = id => { selId = id; render(); };
@@ -398,16 +543,18 @@ window.toggleWife = id => {
 };
 
 window.delItem = id => {
+  if (!confirm('حذف هذا البند؟')) return;
   const m = getSel(); if(!m) return;
   m.items = m.items.filter(i=>i.id!==id);
   saveMonth(); render();
 };
 
 window.openAdd = () => {
-  newWife = false;
+  newWife = false; newCat = '';
   document.getElementById('newName').value = '';
   document.getElementById('newAmt').value = '';
   document.getElementById('newSw').className = 'sw';
+  renderCatPills('newCatPills', '');
   openSheet('addSheet');
   setTimeout(() => document.getElementById('newName').focus(), 350);
 };
@@ -417,17 +564,18 @@ window.confirmAdd = () => {
   const amt  = parseFloat(document.getElementById('newAmt').value);
   if(!name || !amt || amt<=0) return;
   const m = getSel(); if(!m) return;
-  m.items.push({id:uid(), name, amount:amt, isWife:newWife});
+  m.items.push({id:uid(), name, amount:amt, isWife:newWife, cat:newCat});
   saveMonth(); render(); closeSheet('addSheet');
 };
 
 window.openEdit = id => {
   const m = getSel(); if(!m) return;
   const item = m.items.find(i=>i.id===id); if(!item) return;
-  editingId = id; editWife = item.isWife;
+  editingId = id; editWife = item.isWife; editCat = item.cat||'';
   document.getElementById('editName').value = item.name;
   document.getElementById('editAmt').value = item.amount;
   document.getElementById('editSw').className = 'sw' + (editWife?' on':'');
+  renderCatPills('editCatPills', editCat);
   openSheet('editSheet');
 };
 
@@ -437,7 +585,7 @@ window.confirmEdit = () => {
   if(!name || !amt || amt<=0) return;
   const m = getSel(); if(!m) return;
   const item = m.items.find(i=>i.id===editingId); if(!item) return;
-  item.name = name; item.amount = amt; item.isWife = editWife;
+  item.name = name; item.amount = amt; item.isWife = editWife; item.cat = editCat;
   saveMonth(); render(); closeSheet('editSheet');
 };
 
@@ -448,6 +596,21 @@ window.confirmAddMonth = () => {
   const m = {id:uid(), monthIndex:idx, year, salary:lastSalary, items:DEFAULT_ITEMS.map(i=>({...i,id:uid()}))};
   months.push(m); selId = m.id;
   saveMonth(); render(); closeSheet('monthSheet');
+};
+
+window.openDelMonth = id => {
+  if (months.length <= 1) { alert('لا يمكن حذف الشهر الوحيد'); return; }
+  delMonthId = id;
+  const m = months.find(x=>x.id===id);
+  document.getElementById('delMonthMsg').textContent =
+    `هل تريد حذف شهر ${MONTHS[m.monthIndex]}؟ لا يمكن التراجع.`;
+  openSheet('delMonthSheet');
+};
+
+window.confirmDelMonth = () => {
+  months = months.filter(m=>m.id!==delMonthId);
+  if (selId === delMonthId) selId = months[0]?.id || null;
+  saveMonth(); render(); closeSheet('delMonthSheet');
 };
 
 window.toggleSw = (swId, varName) => {
@@ -465,6 +628,12 @@ document.querySelectorAll('.overlay').forEach(el =>
 );
 
 document.getElementById('addMonthBtn').onclick = () => openSheet('monthSheet');
+document.getElementById('notifBtn').onclick = () => {
+  const btn = document.getElementById('notifToggleBtn');
+  btn.className = 'notif-btn' + (notifEnabled ? ' on' : '');
+  btn.textContent = notifEnabled ? '🔔 الإشعارات مفعّلة' : '🔕 تفعيل الإشعارات';
+  openSheet('notifSheet');
+};
 
 document.getElementById('salaryInput').addEventListener('change', e => {
   const m = getSel(); if(!m) return;
