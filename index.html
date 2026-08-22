@@ -19,6 +19,7 @@
   --gold:#9A7000;--gold-bg:#FFF8E7;
   --red:#C0392B;--red-bg:#FDECEA;
   --purple:#7E3FF2;--purple-bg:#F0E9FE;
+  --blue:#2563EB;--blue-bg:#EFF6FF;
   --bg:#F0F4F8;--card:#FFFFFF;--border:#DDE5EF;
   --muted:#64748B;--text:#1B2A4A;
   --safe-top:env(safe-area-inset-top,0px);
@@ -27,7 +28,7 @@
 @media(prefers-color-scheme:dark){:root{
   --bg:#0D1117;--card:#161B22;--border:#21262D;--text:#E6EDF3;
   --muted:#8B949E;--teal-light:#0D2020;--green-bg:#0D2E1A;
-  --gold-bg:#2A1F00;--red-bg:#2A0A0A;--purple-bg:#1E1433;
+  --gold-bg:#2A1F00;--red-bg:#2A0A0A;--purple-bg:#1E1433;--blue-bg:#0A1A33;
 }}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;direction:rtl}
@@ -104,6 +105,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .exp-name.wife{font-weight:700;color:var(--green)}
 .prov-logo{height:16px;width:auto;border-radius:3px;flex-shrink:0;vertical-align:middle}
 .inst-badge{background:var(--purple-bg);color:var(--purple);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:3px}
+.sal-badge{background:var(--blue-bg);color:var(--blue);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0}
 .exp-sub{font-size:10px;color:var(--muted);margin-top:2px;text-align:right;display:flex;align-items:center;gap:4px}
 .exp-note{font-size:10px;color:#E67E22;margin-top:2px;text-align:right;font-style:italic}
 .exp-amt{font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap;flex-shrink:0}
@@ -137,7 +139,33 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .cat-sum-row:last-child{border-bottom:none}
 .cat-sum-label{font-size:13px;display:flex;align-items:center;gap:6px}
 .cat-sum-val{font-size:13px;font-weight:700;color:var(--teal)}
-.tab-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 20px calc(10px + var(--safe-bot));background:rgba(255,255,255,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex}
+/* Worker cards */
+.worker-card{background:var(--card);border-radius:16px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;overflow:hidden}
+.worker-head{padding:14px 16px;display:flex;align-items:center;gap:10px}
+.worker-avatar{width:44px;height:44px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.worker-main{flex:1;min-width:0}
+.worker-name{font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px}
+.worker-salary{font-size:12px;color:var(--teal);font-weight:700;margin-top:2px}
+.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.status-dot.active{background:var(--green-med)}
+.status-dot.ended{background:var(--red)}
+.status-dot.soon{background:var(--gold)}
+.worker-body{padding:0 16px 14px;font-size:12px;color:var(--muted)}
+.worker-detail{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid var(--border)}
+.worker-detail b{color:var(--text);font-weight:600}
+.worker-note{background:var(--bg);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:11px;color:#E67E22;font-style:italic}
+.worker-actions{display:flex;gap:8px;padding:0 16px 14px}
+.wbtn{flex:1;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.wbtn.edit{background:var(--teal-light);color:var(--teal)}
+.wbtn.hist{background:var(--blue-bg);color:var(--blue)}
+.wbtn.del{background:var(--red-bg);color:var(--red)}
+.pay-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.pay-badge.saleh{background:var(--teal-light);color:var(--teal)}
+.pay-badge.lama{background:var(--green-bg);color:var(--green)}
+.contract-warn{background:var(--gold-bg);color:var(--gold);border-radius:8px;padding:8px 10px;margin-top:8px;font-size:11px;font-weight:700;text-align:center}
+.hist-item{padding:8px 0;border-top:1px solid var(--border);font-size:12px;display:flex;justify-content:space-between}
+.hist-item:first-child{border-top:none}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 12px calc(10px + var(--safe-bot));background:rgba(255,255,255,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex}
 @media(prefers-color-scheme:dark){.tab-bar{background:rgba(22,27,34,.9)}}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:4px;font-family:inherit}
 .tab-btn .ti{font-size:20px}.tab-btn .tl{font-size:10px;font-weight:500}
@@ -158,6 +186,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .sh-title{font-size:16px;font-weight:800;text-align:center;margin-bottom:16px}
 .sh-input{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;margin-bottom:10px;outline:none}
 .sh-input:focus{border-color:var(--teal)}
+.sh-input[type=date]{direction:ltr;text-align:right}
 .sh-textarea{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;direction:rtl;margin-bottom:10px;outline:none;resize:none;min-height:60px}
 .sh-textarea:focus{border-color:#E67E22}
 .wife-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer}
@@ -173,7 +202,6 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .inst-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .inst-row label{font-size:12px;color:var(--muted);white-space:nowrap;min-width:70px}
 .inst-select{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-family:inherit;direction:rtl;outline:none}
-/* Provider picker */
 .prov-label{font-size:12px;color:var(--purple);font-weight:700;margin-bottom:8px}
 .prov-pills{display:flex;gap:8px;margin-bottom:10px}
 .prov-pill{flex:1;padding:10px;border-radius:10px;border:2px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;min-height:46px}
@@ -183,6 +211,11 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .prov-pill.active span{color:var(--purple)}
 .prov-other-input{width:100%;padding:10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-family:inherit;direction:rtl;outline:none;display:none}
 .prov-other-input.show{display:block}
+/* Payer picker */
+.payer-pills{display:flex;gap:8px;margin-bottom:12px}
+.payer-pill{flex:1;padding:11px;border-radius:10px;border:2px solid var(--border);background:var(--card);cursor:pointer;text-align:center;font-size:13px;font-weight:700;color:var(--muted);transition:all .2s}
+.payer-pill.active{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+.sh-label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px}
 .form-btns{display:flex;gap:8px;margin-top:4px}
 .btn-p{flex:1;padding:11px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn-s{padding:11px 16px;border-radius:10px;border:none;background:var(--border);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit}
@@ -190,6 +223,8 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .notif-btn{width:100%;padding:11px;border-radius:10px;border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
 .notif-btn.on{background:var(--teal);color:#fff}
 .sh-section{font-size:12px;color:var(--muted);margin-bottom:8px;margin-top:4px;font-weight:600}
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-state .emo{font-size:48px;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -222,7 +257,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   </div>
   <div class="sync-bar" id="syncBar"></div>
   <div class="month-bar" id="monthBar"></div>
-  <div class="salary-bar">
+  <div class="salary-bar" id="salaryBar">
     <label>الراتب:</label>
     <input type="number" id="salaryInput" value="36216">
     <span>ريال</span>
@@ -230,6 +265,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   <div class="scroll-area" id="scrollArea"><div style="text-align:center;padding:40px;color:var(--muted)">⏳ جاري التحميل...</div></div>
   <div class="tab-bar">
     <button class="tab-btn active" id="tabExp" onclick="setTab('exp')"><span class="ti">📋</span><span class="tl">المصاريف</span></button>
+    <button class="tab-btn" id="tabSal" onclick="setTab('sal')"><span class="ti">💼</span><span class="tl">الرواتب</span></button>
     <button class="tab-btn" id="tabSum" onclick="setTab('sum')"><span class="ti">📊</span><span class="tl">الملخص</span></button>
   </div>
 </div>
@@ -251,7 +287,6 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   <input class="sh-input" type="number" id="newAmt" placeholder="المبلغ بالريال" inputmode="decimal">
   <div class="sh-section">📝 ملاحظة (اختياري)</div>
   <textarea class="sh-textarea" id="newNote" placeholder="مثال: السواق مقترض 500 ريال..."></textarea>
-
   <div class="wife-row" onclick="toggleInst('new')">
     <div class="sw purple" id="newInstSw"><div class="sw-knob"></div></div>
     <span>💳 قسط (يتكرر شهرياً)</span>
@@ -265,16 +300,9 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     </div>
     <input class="prov-other-input" id="newProvOther" placeholder="اكتب اسم جهة التقسيط">
     <div class="inst-box-title" style="margin-top:12px">💳 ينتهي القسط في</div>
-    <div class="inst-row">
-      <label>الشهر:</label>
-      <select class="inst-select" id="newInstMonth"></select>
-    </div>
-    <div class="inst-row">
-      <label>السنة:</label>
-      <select class="inst-select" id="newInstYear"></select>
-    </div>
+    <div class="inst-row"><label>الشهر:</label><select class="inst-select" id="newInstMonth"></select></div>
+    <div class="inst-row"><label>السنة:</label><select class="inst-select" id="newInstYear"></select></div>
   </div>
-
   <div class="sh-section">التصنيف (اختياري)</div>
   <div class="cat-pills" id="newCatPills"></div>
   <div class="wife-row" onclick="toggleSw('newSw','newWife')">
@@ -295,7 +323,6 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
   <input class="sh-input" type="number" id="editAmt" placeholder="المبلغ بالريال" inputmode="decimal">
   <div class="sh-section">📝 ملاحظة (اختياري)</div>
   <textarea class="sh-textarea" id="editNote" placeholder="أضف ملاحظة..."></textarea>
-
   <div class="wife-row" onclick="toggleInst('edit')">
     <div class="sw purple" id="editInstSw"><div class="sw-knob"></div></div>
     <span>💳 قسط (يتكرر شهرياً)</span>
@@ -309,16 +336,9 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     </div>
     <input class="prov-other-input" id="editProvOther" placeholder="اكتب اسم جهة التقسيط">
     <div class="inst-box-title" style="margin-top:12px">💳 ينتهي القسط في</div>
-    <div class="inst-row">
-      <label>الشهر:</label>
-      <select class="inst-select" id="editInstMonth"></select>
-    </div>
-    <div class="inst-row">
-      <label>السنة:</label>
-      <select class="inst-select" id="editInstYear"></select>
-    </div>
+    <div class="inst-row"><label>الشهر:</label><select class="inst-select" id="editInstMonth"></select></div>
+    <div class="inst-row"><label>السنة:</label><select class="inst-select" id="editInstYear"></select></div>
   </div>
-
   <div class="sh-section">التصنيف (اختياري)</div>
   <div class="cat-pills" id="editCatPills"></div>
   <div class="wife-row" onclick="toggleSw('editSw','editWife')">
@@ -329,6 +349,39 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <button class="btn-p" onclick="confirmEdit()">حفظ</button>
     <button class="btn-s" onclick="closeSheet('editSheet')">إلغاء</button>
   </div>
+</div></div>
+
+<!-- Add/Edit Worker Sheet -->
+<div class="overlay" id="workerSheet"><div class="sheet">
+  <div class="sh-handle"></div>
+  <div class="sh-title" id="workerSheetTitle">إضافة عامل</div>
+  <div class="sh-label">اسم العامل</div>
+  <input class="sh-input" type="text" id="wName" placeholder="مثال: اليزا">
+  <div class="sh-label">الراتب الشهري (ريال)</div>
+  <input class="sh-input" type="number" id="wSalary" placeholder="1500" inputmode="decimal">
+  <div class="sh-label">📅 بداية العقد</div>
+  <input class="sh-input" type="date" id="wStart">
+  <div class="sh-label">📅 نهاية العقد</div>
+  <input class="sh-input" type="date" id="wEnd">
+  <div class="sh-label">💰 من يدفع الراتب؟</div>
+  <div class="payer-pills" id="wPayerPills">
+    <div class="payer-pill active" data-payer="saleh" onclick="setPayer('saleh')">صالح</div>
+    <div class="payer-pill" data-payer="lama" onclick="setPayer('lama')">💚 لمى</div>
+  </div>
+  <div class="sh-label">📝 ملاحظات (اختياري)</div>
+  <textarea class="sh-textarea" id="wNote" placeholder="أي ملاحظة عن العامل..."></textarea>
+  <div class="form-btns">
+    <button class="btn-p" onclick="confirmWorker()">حفظ</button>
+    <button class="btn-s" onclick="closeSheet('workerSheet')">إلغاء</button>
+  </div>
+</div></div>
+
+<!-- Contract History Sheet -->
+<div class="overlay" id="histSheet"><div class="sheet">
+  <div class="sh-handle"></div>
+  <div class="sh-title" id="histTitle">📜 سجل العقود</div>
+  <div id="histBody"></div>
+  <button class="btn-s" style="width:100%;margin-top:12px" onclick="closeSheet('histSheet')">إغلاق</button>
 </div></div>
 
 <!-- Add Month Sheet -->
@@ -344,7 +397,7 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <option value="10">نوفمبر</option><option value="11">ديسمبر</option>
   </select>
   <input class="sh-input" type="number" id="newMonthYear" value="2025" placeholder="السنة">
-  <p style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:12px">💳 الأقساط اللي ما انتهت راح تُنسخ تلقائياً</p>
+  <p style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:12px">💳 الأقساط + 💼 رواتب العمال النشطين تُنسخ تلقائياً</p>
   <div class="form-btns">
     <button class="btn-p" onclick="confirmAddMonth()">إضافة</button>
     <button class="btn-s" onclick="closeSheet('monthSheet')">إلغاء</button>
@@ -412,15 +465,13 @@ const DEFAULT_ITEMS = [
   {name:"أغراض خالد وعبدالرحمن",amount:1800,isWife:false,cat:'kids',note:'',done:false},
   {name:"فواتير الجوالات",amount:1700,isWife:false,cat:'bills',note:'',done:false},
   {name:"القرض",amount:7000,isWife:false,cat:'loan',note:'',done:false},
-  {name:"راتب اليزا",amount:1500,isWife:false,cat:'staff',note:'',done:false},
-  {name:"راتب السواق",amount:1300,isWife:false,cat:'staff',note:'',done:false},
-  {name:"راتب آن",amount:1600,isWife:false,cat:'staff',note:'',done:false},
 ];
 
 const SID = Math.random().toString(36).slice(2);
-let months=[],selId=null,tab='exp';
+let months=[],workers=[],selId=null,tab='exp';
 let newWife=false,editWife=false,editingId=null,newCat='',editCat='',delMonthId=null;
 let newInst=false,editInst=false,newProv='',editProv='';
+let editingWorkerId=null,wPayer='saleh';
 let notifEnabled=localStorage.getItem('notif')==='on';
 let isFirstLoad=true,unsub=null;
 
@@ -464,10 +515,10 @@ document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key===
 // ── Firestore ─────────────────────────────────────────────
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
-async function saveMonth(){
+async function saveAll(){
   showSync('جاري الحفظ...');
   try{
-    await setDoc(doc(db,'budget','months'),{data:months,lastModifiedBy:SID,lastModifiedAt:Date.now()});
+    await setDoc(doc(db,'budget','months'),{data:months,workers:workers,lastModifiedBy:SID,lastModifiedAt:Date.now()});
     hideSync();
   }catch(e){showSync('خطأ ❌',true);}
 }
@@ -479,7 +530,7 @@ function startListening(){
   isFirstLoad=true;
   unsub=onSnapshot(doc(db,'budget','months'),snap=>{
     if(snap.exists()){
-      const d=snap.data(); months=d.data||[];
+      const d=snap.data(); months=d.data||[]; workers=d.workers||[];
       if(!isFirstLoad&&d.lastModifiedBy&&d.lastModifiedBy!==SID){
         const me=auth.currentUser?.email?.split('@')[0]||'';
         showNotifBanner('💰 تم التعديل',`قام ${me==='saleh'?'لمى':'صالح'} بتحديث الميزانية`);
@@ -488,7 +539,8 @@ function startListening(){
     } else {
       const now=new Date();
       months=[{id:uid(),monthIndex:now.getMonth(),year:now.getFullYear(),salary:36216,items:DEFAULT_ITEMS.map(i=>({...i,id:uid()}))}];
-      saveMonth(); isFirstLoad=false;
+      workers=[];
+      saveAll(); isFirstLoad=false;
     }
     if(!selId||!months.find(m=>m.id===selId)) selId=months[0]?.id||null;
     render();
@@ -509,19 +561,34 @@ function wifeT(m){return m.items.filter(i=>i.isWife).reduce((s,i)=>s+Number(i.am
 function doneT(m){return m.items.filter(i=>i.done).reduce((s,i)=>s+Number(i.amount),0);}
 function sur(m){return m.salary-total(m);}
 function getCat(id){return CATEGORIES.find(c=>c.id===id);}
-
 function instActive(item, monthIdx, year){
   if(!item.inst) return true;
   if(year < item.instEndYear) return true;
   if(year === item.instEndYear && monthIdx <= item.instEndMonth) return true;
   return false;
 }
-
 function provDisplay(item){
   if(item.prov==='tabby') return `<img src="tabby.png" class="prov-logo" alt="tabby">`;
   if(item.prov==='tamara') return `<img src="tamara.png" class="prov-logo" alt="tamara">`;
   if(item.prov==='other'&&item.provOther) return `<span style="font-size:9px;color:var(--purple);font-weight:700">${item.provOther}</span>`;
   return '';
+}
+// Worker contract status for a month (year, monthIdx). Returns 'active','ended','soon'
+function workerStatusFor(w, monthIdx, year){
+  if(!w.contractEnd) return 'active';
+  const end=new Date(w.contractEnd);
+  const endY=end.getFullYear(), endM=end.getMonth();
+  // ended if after end month
+  if(year>endY || (year===endY && monthIdx>endM)) return 'ended';
+  // soon if within same month or next month of end
+  const monthsLeft=(endY-year)*12+(endM-monthIdx);
+  if(monthsLeft<=1) return 'soon';
+  return 'active';
+}
+function fmtDate(d){
+  if(!d) return '—';
+  const dt=new Date(d);
+  return `${MONTHS[dt.getMonth()]} ${dt.getFullYear()}`;
 }
 
 // ── Render ────────────────────────────────────────────────
@@ -529,8 +596,13 @@ function render(){
   renderMonthBar();
   const m=getSel(); if(!m) return;
   document.getElementById('salaryInput').value=m.salary;
-  tab==='exp'?renderExp(m):renderSum(m);
+  // Salary bar + month bar hidden on salaries tab
+  document.getElementById('salaryBar').style.display = tab==='sal'?'none':'flex';
+  if(tab==='exp') renderExp(m);
+  else if(tab==='sal') renderSalaries(m);
+  else renderSum(m);
   document.getElementById('tabExp').className='tab-btn'+(tab==='exp'?' active':'');
+  document.getElementById('tabSal').className='tab-btn'+(tab==='sal'?' active':'');
   document.getElementById('tabSum').className='tab-btn'+(tab==='sum'?' active':'');
 }
 
@@ -550,11 +622,12 @@ function renderExp(m){
     const cat=getCat(item.cat);
     const instTag=item.inst?`<span class="inst-badge">💳 ينتهي ${MONTHS[item.instEndMonth]} ${item.instEndYear}</span>`:'';
     const provTag=item.inst?provDisplay(item):'';
+    const salTag=item.fromWorker?`<span class="sal-badge">💼 راتب</span>`:'';
     return `<div class="exp-row${item.isWife?' wife':''}${item.done?' done':''}">
       <button class="check-box${item.done?' done':''}" onclick="toggleDone('${item.id}')">${item.done?'✓':''}</button>
       <div class="dot${item.isWife?' w':' r'}"></div>
       <div class="exp-info">
-        <div class="exp-name${item.isWife?' wife':''}">${item.name}${provTag}${instTag}</div>
+        <div class="exp-name${item.isWife?' wife':''}">${item.name}${provTag}${instTag}${salTag}</div>
         ${cat?`<div class="exp-sub">${cat.emoji} ${cat.label}</div>`:''}
         ${item.note?`<div class="exp-note">📝 ${item.note}</div>`:''}
       </div>
@@ -579,6 +652,49 @@ function renderExp(m){
       ${rows}
       <button class="add-trigger" onclick="openAdd()">＋ إضافة بند جديد</button>
     </div>`;
+}
+
+// ── Salaries tab ──────────────────────────────────────────
+function renderSalaries(m){
+  const totalSal=workers.reduce((s,w)=>s+Number(w.salary),0);
+  const activeCount=workers.filter(w=>workerStatusFor(w,m.monthIndex,m.year)!=='ended').length;
+  const cards=workers.length?workers.map(w=>{
+    const st=workerStatusFor(w,m.monthIndex,m.year);
+    const stLabel=st==='ended'?'منتهي':st==='soon'?'ينتهي قريباً':'نشط';
+    const payer=w.payer==='lama'?`<span class="pay-badge lama">💚 لمى</span>`:`<span class="pay-badge saleh">صالح</span>`;
+    const warn=st==='soon'?`<div class="contract-warn">⚠️ العقد قارب على الانتهاء (${fmtDate(w.contractEnd)})</div>`:'';
+    const histCount=(w.history||[]).length;
+    return `<div class="worker-card">
+      <div class="worker-head">
+        <div class="worker-avatar">👷</div>
+        <div class="worker-main">
+          <div class="worker-name">${w.name} <span class="status-dot ${st}"></span></div>
+          <div class="worker-salary">${fmt(w.salary)} / شهرياً</div>
+        </div>
+        ${payer}
+      </div>
+      <div class="worker-body">
+        <div class="worker-detail"><span>الحالة</span><b>${stLabel}</b></div>
+        <div class="worker-detail"><span>بداية العقد</span><b>${fmtDate(w.contractStart)}</b></div>
+        <div class="worker-detail"><span>نهاية العقد</span><b>${fmtDate(w.contractEnd)}</b></div>
+        ${w.note?`<div class="worker-note">📝 ${w.note}</div>`:''}
+        ${warn}
+      </div>
+      <div class="worker-actions">
+        <button class="wbtn edit" onclick="openWorker('${w.id}')">✏️ تعديل</button>
+        ${histCount?`<button class="wbtn hist" onclick="openHist('${w.id}')">📜 العقود (${histCount})</button>`:''}
+        <button class="wbtn del" onclick="delWorker('${w.id}')">🗑 حذف</button>
+      </div>
+    </div>`;
+  }).join(''):`<div class="empty-state"><div class="emo">💼</div><div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">ما في عمال بعد</div><div style="font-size:12px">أضف عمالك عشان رواتبهم تنضاف تلقائياً لكل شهر</div></div>`;
+
+  document.getElementById('scrollArea').innerHTML=`
+    <div class="stats-row">
+      <div class="stat-card green"><div class="lbl">👷 عمال نشطين</div><div class="val">${activeCount}</div></div>
+      <div class="stat-card gold"><div class="lbl">💰 إجمالي الرواتب</div><div class="val">${fmt(totalSal)}</div></div>
+    </div>
+    ${cards}
+    <button class="add-trigger" onclick="openWorker(null)">＋ إضافة عامل جديد</button>`;
 }
 
 function renderSum(m){
@@ -614,29 +730,23 @@ function renderCatPills(cid,active){
   ].join('');
 }
 
-// ── Actions ───────────────────────────────────────────────
+// ── Item actions ──────────────────────────────────────────
 window.setCat=(cid,v)=>{if(cid==='newCatPills')newCat=v;else editCat=v;renderCatPills(cid,v);};
 window.selMonth=id=>{selId=id;render();};
 window.setTab=t=>{tab=t;render();};
-window.toggleWife=id=>{const m=getSel();if(!m)return;const i=m.items.find(x=>x.id===id);if(!i)return;i.isWife=!i.isWife;saveMonth();render();};
-window.toggleDone=id=>{const m=getSel();if(!m)return;const i=m.items.find(x=>x.id===id);if(!i)return;i.done=!i.done;saveMonth();render();};
-window.delItem=id=>{if(!confirm('حذف هذا البند؟'))return;const m=getSel();if(!m)return;m.items=m.items.filter(i=>i.id!==id);saveMonth();render();};
+window.toggleWife=id=>{const m=getSel();if(!m)return;const i=m.items.find(x=>x.id===id);if(!i)return;i.isWife=!i.isWife;saveAll();render();};
+window.toggleDone=id=>{const m=getSel();if(!m)return;const i=m.items.find(x=>x.id===id);if(!i)return;i.done=!i.done;saveAll();render();};
+window.delItem=id=>{if(!confirm('حذف هذا البند؟'))return;const m=getSel();if(!m)return;m.items=m.items.filter(i=>i.id!==id);saveAll();render();};
 
 window.toggleInst=(which)=>{
   if(which==='new'){newInst=!newInst;document.getElementById('newInstSw').className='sw purple'+(newInst?' on':'');document.getElementById('newInstBox').className='inst-box'+(newInst?' show':'');}
   else{editInst=!editInst;document.getElementById('editInstSw').className='sw purple'+(editInst?' on':'');document.getElementById('editInstBox').className='inst-box'+(editInst?' show':'');}
 };
-
 window.setProv=(which,prov)=>{
   const prefix=which==='new'?'new':'edit';
   if(which==='new')newProv=prov;else editProv=prov;
-  // Update pill active states
-  document.querySelectorAll(`#${prefix}ProvPills .prov-pill`).forEach(p=>{
-    p.className='prov-pill'+(p.dataset.prov===prov?' active':'');
-  });
-  // Show/hide other input
-  const otherInput=document.getElementById(`${prefix}ProvOther`);
-  otherInput.className='prov-other-input'+(prov==='other'?' show':'');
+  document.querySelectorAll(`#${prefix}ProvPills .prov-pill`).forEach(p=>{p.className='prov-pill'+(p.dataset.prov===prov?' active':'');});
+  document.getElementById(`${prefix}ProvOther`).className='prov-other-input'+(prov==='other'?' show':'');
 };
 
 window.openAdd=()=>{
@@ -662,7 +772,6 @@ window.confirmAdd=()=>{
   const amt=parseFloat(document.getElementById('newAmt').value);
   const note=document.getElementById('newNote').value.trim();
   if(!name||!amt||amt<=0)return;
-  // Validate installment: provider required
   if(newInst){
     if(!newProv){alert('اختر طريقة التقسيط');return;}
     if(newProv==='other'&&!document.getElementById('newProvOther').value.trim()){alert('اكتب اسم جهة التقسيط');return;}
@@ -676,7 +785,7 @@ window.confirmAdd=()=>{
     item.instEndYear=parseInt(document.getElementById('newInstYear').value);
   }
   m.items.push(item);
-  saveMonth();render();closeSheet('addSheet');
+  saveAll();render();closeSheet('addSheet');
 };
 
 window.openEdit=id=>{
@@ -689,11 +798,8 @@ window.openEdit=id=>{
   document.getElementById('editSw').className='sw'+(editWife?' on':'');
   document.getElementById('editInstSw').className='sw purple'+(editInst?' on':'');
   document.getElementById('editInstBox').className='inst-box'+(editInst?' show':'');
-  // Provider pills
   document.querySelectorAll('#editProvPills .prov-pill').forEach(p=>p.className='prov-pill'+(p.dataset.prov===editProv?' active':''));
-  const eo=document.getElementById('editProvOther');
-  eo.value=item.provOther||'';
-  eo.className='prov-other-input'+(editProv==='other'?' show':'');
+  const eo=document.getElementById('editProvOther');eo.value=item.provOther||'';eo.className='prov-other-input'+(editProv==='other'?' show':'');
   document.getElementById('editInstMonth').value=item.instEndMonth!=null?item.instEndMonth:m.monthIndex;
   document.getElementById('editInstYear').value=item.instEndYear||m.year;
   renderCatPills('editCatPills',editCat);
@@ -720,9 +826,77 @@ window.confirmEdit=()=>{
   } else {
     delete item.prov;delete item.provOther;delete item.instEndMonth;delete item.instEndYear;
   }
-  saveMonth();render();closeSheet('editSheet');
+  saveAll();render();closeSheet('editSheet');
 };
 
+// ── Worker actions ────────────────────────────────────────
+window.setPayer=(p)=>{
+  wPayer=p;
+  document.querySelectorAll('#wPayerPills .payer-pill').forEach(el=>el.className='payer-pill'+(el.dataset.payer===p?' active':''));
+};
+
+window.openWorker=(id)=>{
+  editingWorkerId=id;
+  if(id){
+    const w=workers.find(x=>x.id===id);if(!w)return;
+    document.getElementById('workerSheetTitle').textContent='تعديل عامل';
+    document.getElementById('wName').value=w.name;
+    document.getElementById('wSalary').value=w.salary;
+    document.getElementById('wStart').value=w.contractStart||'';
+    document.getElementById('wEnd').value=w.contractEnd||'';
+    document.getElementById('wNote').value=w.note||'';
+    setPayer(w.payer||'saleh');
+  } else {
+    document.getElementById('workerSheetTitle').textContent='إضافة عامل';
+    document.getElementById('wName').value='';
+    document.getElementById('wSalary').value='';
+    document.getElementById('wStart').value='';
+    document.getElementById('wEnd').value='';
+    document.getElementById('wNote').value='';
+    setPayer('saleh');
+  }
+  openSheet('workerSheet');
+};
+
+window.confirmWorker=()=>{
+  const name=document.getElementById('wName').value.trim();
+  const salary=parseFloat(document.getElementById('wSalary').value);
+  const start=document.getElementById('wStart').value;
+  const end=document.getElementById('wEnd').value;
+  const note=document.getElementById('wNote').value.trim();
+  if(!name||!salary||salary<=0){alert('اكتب اسم العامل والراتب');return;}
+  if(editingWorkerId){
+    const w=workers.find(x=>x.id===editingWorkerId);if(!w)return;
+    // If contract dates changed, save old contract to history
+    if((w.contractStart!==start||w.contractEnd!==end)&&(w.contractStart||w.contractEnd)){
+      w.history=w.history||[];
+      w.history.unshift({start:w.contractStart,end:w.contractEnd,savedAt:Date.now()});
+    }
+    w.name=name;w.salary=salary;w.contractStart=start;w.contractEnd=end;w.note=note;w.payer=wPayer;
+  } else {
+    workers.push({id:uid(),name,salary,contractStart:start,contractEnd:end,note,payer:wPayer,history:[]});
+  }
+  saveAll();render();closeSheet('workerSheet');
+};
+
+window.delWorker=(id)=>{
+  const w=workers.find(x=>x.id===id);
+  if(!confirm(`حذف العامل "${w?.name}"؟ (لن يؤثر على الشهور القديمة)`))return;
+  workers=workers.filter(x=>x.id!==id);
+  saveAll();render();
+};
+
+window.openHist=(id)=>{
+  const w=workers.find(x=>x.id===id);if(!w||!w.history?.length)return;
+  document.getElementById('histTitle').textContent=`📜 عقود ${w.name} السابقة`;
+  document.getElementById('histBody').innerHTML=w.history.map(h=>`
+    <div class="hist-item">
+      <span>${fmtDate(h.start)} ← ${fmtDate(h.end)}</span>
+    </div>`).join('');
+  openSheet('histSheet');
+};
+
+// ── Month actions ─────────────────────────────────────────
 window.confirmAddMonth=()=>{
   const idx=parseInt(document.getElementById('newMonthIdx').value);
   const year=parseInt(document.getElementById('newMonthYear').value)||2025;
@@ -730,12 +904,19 @@ window.confirmAddMonth=()=>{
   const salary=last?last.salary:36216;
   let items;
   if(last){
-    items=last.items.filter(i=>instActive(i, idx, year)).map(i=>({...i,id:uid(),done:false}));
+    // Copy items but skip finished installments AND skip old worker-salary items (we re-add fresh)
+    items=last.items.filter(i=>!i.fromWorker && instActive(i, idx, year)).map(i=>({...i,id:uid(),done:false}));
   } else {
     items=DEFAULT_ITEMS.map(i=>({...i,id:uid()}));
   }
+  // Add active workers' salaries as items
+  workers.forEach(w=>{
+    if(workerStatusFor(w, idx, year)!=='ended'){
+      items.push({id:uid(),name:'راتب '+w.name,amount:Number(w.salary),isWife:w.payer==='lama',cat:'staff',note:'',done:false,fromWorker:true,workerId:w.id});
+    }
+  });
   const m={id:uid(),monthIndex:idx,year,salary,items};
-  months.push(m);selId=m.id;saveMonth();render();closeSheet('monthSheet');
+  months.push(m);selId=m.id;tab='exp';saveAll();render();closeSheet('monthSheet');
 };
 
 window.openDelMonth=id=>{
@@ -745,11 +926,10 @@ window.openDelMonth=id=>{
   document.getElementById('delMonthMsg').textContent=`هل تريد حذف شهر ${MONTHS[m.monthIndex]}؟`;
   openSheet('delMonthSheet');
 };
-
 window.confirmDelMonth=()=>{
   months=months.filter(m=>m.id!==delMonthId);
   if(selId===delMonthId)selId=months[0]?.id||null;
-  saveMonth();render();closeSheet('delMonthSheet');
+  saveAll();render();closeSheet('delMonthSheet');
 };
 
 window.toggleSw=(swId,v)=>{
@@ -771,7 +951,7 @@ document.getElementById('notifBtn').onclick=()=>{
 document.getElementById('salaryInput').addEventListener('change',e=>{
   const m=getSel();if(!m)return;
   m.salary=parseFloat(e.target.value)||36216;
-  saveMonth();render();
+  saveAll();render();
 });
 </script>
 </body>
