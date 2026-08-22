@@ -102,8 +102,9 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .exp-info{flex:1;min-width:0}
 .exp-name{font-size:13px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
 .exp-name.wife{font-weight:700;color:var(--green)}
-.inst-badge{background:var(--purple-bg);color:var(--purple);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0}
-.exp-sub{font-size:10px;color:var(--muted);margin-top:2px;text-align:right}
+.prov-logo{height:16px;width:auto;border-radius:3px;flex-shrink:0;vertical-align:middle}
+.inst-badge{background:var(--purple-bg);color:var(--purple);font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:3px}
+.exp-sub{font-size:10px;color:var(--muted);margin-top:2px;text-align:right;display:flex;align-items:center;gap:4px}
 .exp-note{font-size:10px;color:#E67E22;margin-top:2px;text-align:right;font-style:italic}
 .exp-amt{font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap;flex-shrink:0}
 .exp-amt.wife{color:var(--green-med)}
@@ -168,10 +169,20 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
 .sw.on .sw-knob{right:19px}
 .inst-box{background:var(--purple-bg);border-radius:12px;padding:12px;margin-bottom:10px;display:none}
 .inst-box.show{display:block}
-.inst-box-title{font-size:12px;color:var(--purple);font-weight:700;margin-bottom:8px}
+.inst-box-title{font-size:12px;color:var(--purple);font-weight:700;margin-bottom:10px}
 .inst-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .inst-row label{font-size:12px;color:var(--muted);white-space:nowrap;min-width:70px}
 .inst-select{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-family:inherit;direction:rtl;outline:none}
+/* Provider picker */
+.prov-label{font-size:12px;color:var(--purple);font-weight:700;margin-bottom:8px}
+.prov-pills{display:flex;gap:8px;margin-bottom:10px}
+.prov-pill{flex:1;padding:10px;border-radius:10px;border:2px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;min-height:46px}
+.prov-pill.active{border-color:var(--purple);background:#fff}
+.prov-pill img{height:22px;width:auto}
+.prov-pill span{font-size:13px;font-weight:700;color:var(--muted)}
+.prov-pill.active span{color:var(--purple)}
+.prov-other-input{width:100%;padding:10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-family:inherit;direction:rtl;outline:none;display:none}
+.prov-other-input.show{display:block}
 .form-btns{display:flex;gap:8px;margin-top:4px}
 .btn-p{flex:1;padding:11px;border-radius:10px;border:none;background:var(--teal);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .btn-s{padding:11px 16px;border-radius:10px;border:none;background:var(--border);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit}
@@ -246,13 +257,20 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <span>💳 قسط (يتكرر شهرياً)</span>
   </div>
   <div class="inst-box" id="newInstBox">
-    <div class="inst-box-title">💳 تفاصيل القسط</div>
+    <div class="prov-label">طريقة التقسيط *</div>
+    <div class="prov-pills" id="newProvPills">
+      <div class="prov-pill" data-prov="tabby" onclick="setProv('new','tabby')"><img src="tabby.png" alt="tabby"></div>
+      <div class="prov-pill" data-prov="tamara" onclick="setProv('new','tamara')"><img src="tamara.png" alt="tamara"></div>
+      <div class="prov-pill" data-prov="other" onclick="setProv('new','other')"><span>أخرى</span></div>
+    </div>
+    <input class="prov-other-input" id="newProvOther" placeholder="اكتب اسم جهة التقسيط">
+    <div class="inst-box-title" style="margin-top:12px">💳 ينتهي القسط في</div>
     <div class="inst-row">
-      <label>ينتهي في:</label>
+      <label>الشهر:</label>
       <select class="inst-select" id="newInstMonth"></select>
     </div>
     <div class="inst-row">
-      <label>سنة:</label>
+      <label>السنة:</label>
       <select class="inst-select" id="newInstYear"></select>
     </div>
   </div>
@@ -283,13 +301,20 @@ body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--
     <span>💳 قسط (يتكرر شهرياً)</span>
   </div>
   <div class="inst-box" id="editInstBox">
-    <div class="inst-box-title">💳 تفاصيل القسط</div>
+    <div class="prov-label">طريقة التقسيط *</div>
+    <div class="prov-pills" id="editProvPills">
+      <div class="prov-pill" data-prov="tabby" onclick="setProv('edit','tabby')"><img src="tabby.png" alt="tabby"></div>
+      <div class="prov-pill" data-prov="tamara" onclick="setProv('edit','tamara')"><img src="tamara.png" alt="tamara"></div>
+      <div class="prov-pill" data-prov="other" onclick="setProv('edit','other')"><span>أخرى</span></div>
+    </div>
+    <input class="prov-other-input" id="editProvOther" placeholder="اكتب اسم جهة التقسيط">
+    <div class="inst-box-title" style="margin-top:12px">💳 ينتهي القسط في</div>
     <div class="inst-row">
-      <label>ينتهي في:</label>
+      <label>الشهر:</label>
       <select class="inst-select" id="editInstMonth"></select>
     </div>
     <div class="inst-row">
-      <label>سنة:</label>
+      <label>السنة:</label>
       <select class="inst-select" id="editInstYear"></select>
     </div>
   </div>
@@ -374,6 +399,7 @@ const CATEGORIES = [
   {id:'clothes',label:'ملابس',emoji:'👗'},
   {id:'health',label:'صحة',emoji:'💊'},
   {id:'education',label:'تعليم',emoji:'🎓'},
+  {id:'purchases',label:'مشتريات - أقساط',emoji:'🛍️'},
   {id:'transport',label:'مواصلات',emoji:'🚗'},
   {id:'other',label:'أخرى',emoji:'📦'},
 ];
@@ -394,11 +420,10 @@ const DEFAULT_ITEMS = [
 const SID = Math.random().toString(36).slice(2);
 let months=[],selId=null,tab='exp';
 let newWife=false,editWife=false,editingId=null,newCat='',editCat='',delMonthId=null;
-let newInst=false,editInst=false;
+let newInst=false,editInst=false,newProv='',editProv='';
 let notifEnabled=localStorage.getItem('notif')==='on';
 let isFirstLoad=true,unsub=null;
 
-// Fill installment month/year selects
 function fillInstSelects(){
   const monthOpts=MONTHS.map((m,i)=>`<option value="${i}">${m}</option>`).join('');
   const yearOpts=[2025,2026,2027,2028].map(y=>`<option value="${y}">${y}</option>`).join('');
@@ -485,13 +510,18 @@ function doneT(m){return m.items.filter(i=>i.done).reduce((s,i)=>s+Number(i.amou
 function sur(m){return m.salary-total(m);}
 function getCat(id){return CATEGORIES.find(c=>c.id===id);}
 
-// Check if installment still active for a given month/year
 function instActive(item, monthIdx, year){
-  if(!item.inst) return true; // not installment → always ok
-  // active if (year,month) <= (endYear,endMonth)
+  if(!item.inst) return true;
   if(year < item.instEndYear) return true;
   if(year === item.instEndYear && monthIdx <= item.instEndMonth) return true;
   return false;
+}
+
+function provDisplay(item){
+  if(item.prov==='tabby') return `<img src="tabby.png" class="prov-logo" alt="tabby">`;
+  if(item.prov==='tamara') return `<img src="tamara.png" class="prov-logo" alt="tamara">`;
+  if(item.prov==='other'&&item.provOther) return `<span style="font-size:9px;color:var(--purple);font-weight:700">${item.provOther}</span>`;
+  return '';
 }
 
 // ── Render ────────────────────────────────────────────────
@@ -518,12 +548,13 @@ function renderExp(m){
   const bc=pct>90?'var(--red)':pct>70?'var(--gold)':'var(--teal)';
   const rows=m.items.map(item=>{
     const cat=getCat(item.cat);
-    const instTag=item.inst?`<span class="inst-badge">💳 قسط · ينتهي ${MONTHS[item.instEndMonth]} ${item.instEndYear}</span>`:'';
+    const instTag=item.inst?`<span class="inst-badge">💳 ينتهي ${MONTHS[item.instEndMonth]} ${item.instEndYear}</span>`:'';
+    const provTag=item.inst?provDisplay(item):'';
     return `<div class="exp-row${item.isWife?' wife':''}${item.done?' done':''}">
       <button class="check-box${item.done?' done':''}" onclick="toggleDone('${item.id}')">${item.done?'✓':''}</button>
       <div class="dot${item.isWife?' w':' r'}"></div>
       <div class="exp-info">
-        <div class="exp-name${item.isWife?' wife':''}">${item.name}${instTag}</div>
+        <div class="exp-name${item.isWife?' wife':''}">${item.name}${provTag}${instTag}</div>
         ${cat?`<div class="exp-sub">${cat.emoji} ${cat.label}</div>`:''}
         ${item.note?`<div class="exp-note">📝 ${item.note}</div>`:''}
       </div>
@@ -596,14 +627,29 @@ window.toggleInst=(which)=>{
   else{editInst=!editInst;document.getElementById('editInstSw').className='sw purple'+(editInst?' on':'');document.getElementById('editInstBox').className='inst-box'+(editInst?' show':'');}
 };
 
+window.setProv=(which,prov)=>{
+  const prefix=which==='new'?'new':'edit';
+  if(which==='new')newProv=prov;else editProv=prov;
+  // Update pill active states
+  document.querySelectorAll(`#${prefix}ProvPills .prov-pill`).forEach(p=>{
+    p.className='prov-pill'+(p.dataset.prov===prov?' active':'');
+  });
+  // Show/hide other input
+  const otherInput=document.getElementById(`${prefix}ProvOther`);
+  otherInput.className='prov-other-input'+(prov==='other'?' show':'');
+};
+
 window.openAdd=()=>{
-  newWife=false;newCat='';newInst=false;
+  newWife=false;newCat='';newInst=false;newProv='';
   document.getElementById('newName').value='';
   document.getElementById('newAmt').value='';
   document.getElementById('newNote').value='';
+  document.getElementById('newProvOther').value='';
   document.getElementById('newSw').className='sw';
   document.getElementById('newInstSw').className='sw purple';
   document.getElementById('newInstBox').className='inst-box';
+  document.querySelectorAll('#newProvPills .prov-pill').forEach(p=>p.className='prov-pill');
+  document.getElementById('newProvOther').className='prov-other-input';
   const m=getSel();
   if(m){document.getElementById('newInstMonth').value=m.monthIndex;document.getElementById('newInstYear').value=m.year;}
   renderCatPills('newCatPills','');
@@ -616,9 +662,16 @@ window.confirmAdd=()=>{
   const amt=parseFloat(document.getElementById('newAmt').value);
   const note=document.getElementById('newNote').value.trim();
   if(!name||!amt||amt<=0)return;
+  // Validate installment: provider required
+  if(newInst){
+    if(!newProv){alert('اختر طريقة التقسيط');return;}
+    if(newProv==='other'&&!document.getElementById('newProvOther').value.trim()){alert('اكتب اسم جهة التقسيط');return;}
+  }
   const m=getSel();if(!m)return;
   const item={id:uid(),name,amount:amt,isWife:newWife,cat:newCat,note,done:false,inst:newInst};
   if(newInst){
+    item.prov=newProv;
+    if(newProv==='other')item.provOther=document.getElementById('newProvOther').value.trim();
     item.instEndMonth=parseInt(document.getElementById('newInstMonth').value);
     item.instEndYear=parseInt(document.getElementById('newInstYear').value);
   }
@@ -629,13 +682,18 @@ window.confirmAdd=()=>{
 window.openEdit=id=>{
   const m=getSel();if(!m)return;
   const item=m.items.find(i=>i.id===id);if(!item)return;
-  editingId=id;editWife=item.isWife;editCat=item.cat||'';editInst=!!item.inst;
+  editingId=id;editWife=item.isWife;editCat=item.cat||'';editInst=!!item.inst;editProv=item.prov||'';
   document.getElementById('editName').value=item.name;
   document.getElementById('editAmt').value=item.amount;
   document.getElementById('editNote').value=item.note||'';
   document.getElementById('editSw').className='sw'+(editWife?' on':'');
   document.getElementById('editInstSw').className='sw purple'+(editInst?' on':'');
   document.getElementById('editInstBox').className='inst-box'+(editInst?' show':'');
+  // Provider pills
+  document.querySelectorAll('#editProvPills .prov-pill').forEach(p=>p.className='prov-pill'+(p.dataset.prov===editProv?' active':''));
+  const eo=document.getElementById('editProvOther');
+  eo.value=item.provOther||'';
+  eo.className='prov-other-input'+(editProv==='other'?' show':'');
   document.getElementById('editInstMonth').value=item.instEndMonth!=null?item.instEndMonth:m.monthIndex;
   document.getElementById('editInstYear').value=item.instEndYear||m.year;
   renderCatPills('editCatPills',editCat);
@@ -647,14 +705,20 @@ window.confirmEdit=()=>{
   const amt=parseFloat(document.getElementById('editAmt').value);
   const note=document.getElementById('editNote').value.trim();
   if(!name||!amt||amt<=0)return;
+  if(editInst){
+    if(!editProv){alert('اختر طريقة التقسيط');return;}
+    if(editProv==='other'&&!document.getElementById('editProvOther').value.trim()){alert('اكتب اسم جهة التقسيط');return;}
+  }
   const m=getSel();if(!m)return;
   const item=m.items.find(i=>i.id===editingId);if(!item)return;
   item.name=name;item.amount=amt;item.isWife=editWife;item.cat=editCat;item.note=note;item.inst=editInst;
   if(editInst){
+    item.prov=editProv;
+    item.provOther=editProv==='other'?document.getElementById('editProvOther').value.trim():'';
     item.instEndMonth=parseInt(document.getElementById('editInstMonth').value);
     item.instEndYear=parseInt(document.getElementById('editInstYear').value);
   } else {
-    delete item.instEndMonth;delete item.instEndYear;
+    delete item.prov;delete item.provOther;delete item.instEndMonth;delete item.instEndYear;
   }
   saveMonth();render();closeSheet('editSheet');
 };
@@ -664,13 +728,9 @@ window.confirmAddMonth=()=>{
   const year=parseInt(document.getElementById('newMonthYear').value)||2025;
   const last=months.length?months[months.length-1]:null;
   const salary=last?last.salary:36216;
-
   let items;
   if(last){
-    // Copy all items from last month, but skip finished installments
-    items=last.items
-      .filter(i=>instActive(i, idx, year))
-      .map(i=>({...i,id:uid(),done:false}));
+    items=last.items.filter(i=>instActive(i, idx, year)).map(i=>({...i,id:uid(),done:false}));
   } else {
     items=DEFAULT_ITEMS.map(i=>({...i,id:uid()}));
   }
